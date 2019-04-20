@@ -1,0 +1,31 @@
+    
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row" style="margin-top: 15px;">
+    <div class="col">
+        <h2> Наши мемы</h2>
+    </div>
+    <div class="col">
+        <a class="float-right btn btn-success btn-sm" href="/add"><i
+                class="icon ion-plus-round"></i>&nbsp;Добавить мем</a>
+    </div>
+</div>
+<div class="row" style="margin-top: 15px;">
+    <div class="card-deck">
+        {% for cat in cats %}
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ cat['photo'] }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ loop.index }}. {{ cat['name'] }}</h5>
+                <p class="card-text">{{ cat['description'] }}</p>
+                <a href="/cats/{{ loop.index }}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

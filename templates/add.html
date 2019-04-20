@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Добавление мема</h1>
+
+<form action="/add" method="POST">
+    <p><input class="form-control" placeholder="Имя" aria-label="Имя" aria-describedby="addon-wrapping" type="text" name="name" /></p>
+
+    <p><input class="form-control" placeholder="Фото" aria-label="Фото" aria-describedby="addon-wrapping" type="text" name="photo" /></p>
+    <p>
+        <textarea class="form-control" placeholder="Описание" name="description"></textarea>
+    </p>
+    <input class= "btn btn-primary" type="submit" value="Добавить"/>
+</form>
+{% endblock %}
