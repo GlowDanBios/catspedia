@@ -24,11 +24,15 @@ def index():
 
 @app.route('/add', methods=['GET'])
 def add_form():
+    if not session.get('logged_in'):
+        return render_template('login.html')
     return render_template('add.html')
 
 
 @app.route('/add', methods=['POST'])
 def add():
+    if not session.get('logged_in'):
+        return render_template('login.html')
     fields = ['name', 'photo', 'description']
     for field in fields:
         if request.form.get(field, '') == '':
@@ -50,6 +54,8 @@ def add():
 
 @app.route('/cats/<id>', methods=['GET'])
 def details(id):
+    if not session.get('logged_in'):
+        return render_template('login.html')
     with client:
         db = client.mempedia
         cats = list(db.mempedia.find())
@@ -70,6 +76,8 @@ def details(id):
 
 @app.route('/like/<id>', methods=['GET'])
 def like(id):
+    if not session.get('logged_in'):
+        return render_template('login.html')
     with client:
         db = client.mempedia
         cats = db.mempedia
@@ -88,6 +96,8 @@ def like(id):
 
 @app.route('/comment/<id>', methods=['POST'])
 def comment(id):
+    if not session.get('logged_in'):
+        return render_template('login.html')
     fields = ['comment']
     for field in fields:
         if request.form.get(field, '') == '':
@@ -101,7 +111,6 @@ def comment(id):
         cat = postcats[int(id)-1]
     except IndexError:
         cat = postcats[0]
-    comments = cat['comments']
     objid = cat['_id']
     now = datetime.datetime.now()
     now = (str(now)[0:19])
@@ -169,6 +178,8 @@ def registration():
 
 @app.route('/delcom/<id>/<idd>', methods=['GET'])
 def delcom(id, idd):
+    if not session.get('logged_in'):
+        return render_template('login.html')
     with client:
         db = client.mempedia
         comments = db.comments
@@ -178,10 +189,11 @@ def delcom(id, idd):
 
 @app.route('/delmeme/<id>')
 def delmeme(id):
+    if not session.get('logged_in'):
+        return render_template('login.html')
     with client:
         db = client.mempedia
         memes = db.mempedia
-    print(id)
     memes.delete_one({'_id': ObjectId(id)})
     return redirect('/')
 
