@@ -2,6 +2,15 @@
 
 {% block content %}
 
+<div class="col">
+        <a class="float-right btn btn-success btn-sm" href="/"><i
+                class="icon ion-plus-round" ></i>Назад</a>
+        {% if user == cat['owner'] %}
+        <a style="margin-right:20px" class="float-right btn btn-success btn-sm" href="/delmeme/{{cat['_id']}}"><i
+                class="icon ion-plus-round"></i>Удалить мем</a>
+        {% endif %}
+
+    </div>
 <a type="button" class="btn btn-link" href="/">Назад</a>
 <h1>Мем {{cat['name']}}</h1>
 <picture>
@@ -10,23 +19,28 @@
 </picture>
 <p>{{cat['description']}}</p>
 <p>
-    <strong>Лайков: {{ cat['likes'] }}</strong></p>
-<p><a type="button" class="btn btn-link" href="/like/{{id}}">Поставить лайк</a></p>
+    <strong>Лайков: {{ cat['likes']|length }}</strong></p>
+<p><a type="button" class="btn btn-link" href="/like/{{id}}">&#128077;</a></p>
 <form action="/comment/{{id}}" method="post">
-    <p>
-    <div class="input-group flex-nowrap">
-        <input class="form-control" placeholder="Имя" aria-label="Имя" aria-describedby="addon-wrapping" type="text" name="author" /></p>
-    </div>
     <p><textarea style="margin-top: 15px;" class="form-control" placeholder="Комментарий" name="comment"></textarea></p>
     <input class= "btn btn-primary" type="submit" value="Добавить"/>
 </form>
 <p>
 <h4><strong>Комментарии:</strong></h4>
 </p>
-{% for comment in cat['comments'] %}
+{% for comment in comments %}
+{% if comment['author'] == user %}
+<div class="col">
+    <h4>{{ comment['author'] }}</h4>
+    <a class="float-right btn btn-success btn-sm"  href="/delcom/{{id}}/{{comment['_id']}}">Удалить комментарий</a>
+</div>
+<p>{{ comment['text'] }}</p>
+<small>Дата: {{ comment['date'] }}</small>
+{% else %}
 <h4>{{ comment['author'] }}</h4>
 <p>{{ comment['text'] }}</p>
 <small>Дата: {{ comment['date'] }}</small>
+{% endif %}
 {% endfor %}
 
 {% endblock %}
