@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+
+<h1>Регистрация</h1>
+
+<form action="/registration" method="POST">
+    <p><input class="form-control" placeholder="Логин" aria-label="Логин" aria-describedby="addon-wrapping" type="text" name="login" /></p>
+
+    <p><input class="form-control" placeholder="Email" aria-label="Email" aria-describedby="addon-wrapping" type="text" name="email" /></p>
+
+    <p><input class="form-control" placeholder="Пароль" aria-label="Пароль" aria-describedby="addon-wrapping" type="text" name="password1" /></p>
+
+    <p><input class="form-control" placeholder="Введите пароль ещё раз" aria-label="Введите пароль ещё раз" aria-describedby="addon-wrapping" type="text" name="password2" /></p>
+
+    <input class= "btn btn-primary" type="submit" value="Зарегестрироваться"/>
+</form>
+
+{% endblock %}
