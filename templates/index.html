@@ -22,9 +22,9 @@
         <div class="card" style="width: 18rem;">
             <img src="{{ cat['photo'] }}" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">{{ loop.index }}. {{ cat['name'] }}</h5>
+                <h5 class="card-title"> {{ cat['name'] }}</h5>
                 <p class="card-text">{{ cat['description'] }}</p>
-                <a href="/cats/{{ loop.index }}" class="btn btn-primary">Подробнее</a>
+                <a href="/cats/{{ ids[loop.index-1] }}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
         {% endfor %}

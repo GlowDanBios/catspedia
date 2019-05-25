@@ -6,10 +6,13 @@ from bson import ObjectId
 
 app = Flask(__name__)
 
+ids = []
 client = MongoClient('mongodb+srv://hhsl:As123456@mempedia-ptiit.mongodb.net/test?retryWrites=true')
 with client:
     db = client.mempedia
     cats = list(db.mempedia.find())
+    for cat in cats:
+        ids.append(cat['_id'])
 
 
 @app.route('/', methods=['GET'])
@@ -19,7 +22,7 @@ def index():
     with client:
         db = client.mempedia
         cats = list(db.mempedia.find())
-    return render_template('index.html', cats=cats)
+    return render_template('index.html', cats=cats, ids=ids)
 
 
 @app.route('/add', methods=['GET'])
@@ -59,10 +62,9 @@ def details(id):
     with client:
         db = client.mempedia
         cats = list(db.mempedia.find())
-    try:
-        cat = cats[int(id)-1]
-    except IndexError:
-        cat = cats[0]
+    for cat in cats:
+        if cat['_id'] == id:
+            break
     name = session['username']
     comms = list(db.comments.find())
     ids = cat['comments']
@@ -82,7 +84,9 @@ def like(id):
         db = client.mempedia
         cats = db.mempedia
     postcats = list(cats.find())
-    cat = postcats[int(id)-1]
+    for cat in postcats:
+        if cat['_id'] == id:
+            break
     likes = cat['likes']
     if session['username'] in likes:
         return redirect('/cats/{0}'.format(id))
@@ -107,10 +111,9 @@ def comment(id):
         cats = db.mempedia
         commentys = db.comments
     postcats = list(cats.find())
-    try:
-        cat = postcats[int(id)-1]
-    except IndexError:
-        cat = postcats[0]
+    for cat in postcats:
+        if cat['_id'] == id:
+            break
     objid = cat['_id']
     now = datetime.datetime.now()
     now = (str(now)[0:19])
